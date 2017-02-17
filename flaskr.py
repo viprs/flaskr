@@ -22,12 +22,13 @@ def connect_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-
 def get_db():
     """打开"""
     if not hasattr(g, 'sqlite_db'):
         g.sqlite_db = connect_db()
-    
+        print g.sqlite_db
+    return g.sqlite_db
+
 def init_db():
     with app.app_context():
         db = get_db()
@@ -35,6 +36,17 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
+@app.cli.command('initdb')
+def initdb_command():
+    """创建数据库和表"""
+    init_db()
+    print '初始化数据库成功.'
+
+@app.teardown_appcontext
+def close_db(error):
+    """请求结束时，自动关闭数据库连接"""
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
 
 @app.route('/')
 def index():
