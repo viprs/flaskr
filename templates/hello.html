@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Hello from Flask</title>
+	</head>
+	<body>
+		{% if name %}
+			<h1>Hello {{name}}!</h1>
+		{% else %}
+			<h1>Hello World!</h1>
+		{% endif %}
+		{# 在模板里，你也可以访问 request 、 session 和 g [1] 对象， 以及 get_flashed_messages() 函数。#}
+	</body>
+</html>
